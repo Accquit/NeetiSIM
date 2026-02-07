@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../services/api';
+import { generatePolicyInsight, type AIResponse } from '../services/GeminiService';
 import type { Policy, SimulationResult } from '../types';
 
 export default function Simulator() {
@@ -9,6 +10,25 @@ export default function Simulator() {
     const [selectedPolicy, setSelectedPolicy] = useState('');
     const [budget, setBudget] = useState(100);
     const [results, setResults] = useState<SimulationResult | null>(null);
+
+    // AI Modal State
+    const [showAIModal, setShowAIModal] = useState(false);
+    const [aiQuery, setAiQuery] = useState('');
+    const [aiResult, setAiResult] = useState<AIResponse | null>(null);
+    const [aiLoading, setAiLoading] = useState(false);
+
+    const handleAskAI = async () => {
+        setAiLoading(true);
+        setAiResult(null);
+        try {
+            const response = await generatePolicyInsight(aiQuery, 287);
+            setAiResult(response);
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setAiLoading(false);
+        }
+    };
 
     useEffect(() => {
         loadPolicies();
@@ -52,13 +72,92 @@ export default function Simulator() {
 
             <div className="relative max-w-7xl mx-auto z-10">
                 <div className="mb-12 animate-slide-up">
-                    <span className="text-sm font-mono text-primary uppercase tracking-widest mb-2 block">Experimental Mode</span>
-                    <h2 className="text-5xl font-display font-bold text-white mb-4">Policy Simulator</h2>
-                    <p className="text-slate-400 max-w-2xl font-light text-lg">
-                        Adjust parameters to model future scenarios using our predictive engine.
-                        Results update in real-time based on historical data patterns.
-                    </p>
+                    <div className="flex flex-col md:flex-row justify-between items-end gap-6">
+                        <div>
+                            <span className="text-sm font-mono text-primary uppercase tracking-widest mb-2 block">Experimental Mode</span>
+                            <h2 className="text-5xl font-display font-bold text-white mb-4">Policy Simulator</h2>
+                            <p className="text-slate-400 max-w-2xl font-light text-lg">
+                                Adjust parameters to model future scenarios using our predictive engine.
+                                Results update in real-time based on historical data patterns.
+                            </p>
+                        </div>
+
+                        <button
+                            onClick={() => setShowAIModal(true)}
+                            className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl text-white font-bold shadow-lg hover:shadow-indigo-500/30 transition-all hover:scale-105"
+                        >
+                            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                            </svg>
+                            Ask AI Assistant
+                        </button>
+                    </div>
                 </div>
+
+                {/* AI Modal */}
+                {showAIModal && (
+                    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in">
+                        <div className="bg-slate-900 border border-white/10 rounded-3xl p-8 max-w-2xl w-full relative overflow-hidden">
+                            <button
+                                onClick={() => setShowAIModal(false)}
+                                className="absolute top-4 right-4 text-slate-500 hover:text-white"
+                            >
+                                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+
+                            <h3 className="text-2xl font-display font-bold text-white mb-2 flex items-center gap-3">
+                                <span className="text-indigo-400">✨</span> Gemini AI Policy Architect
+                            </h3>
+                            <p className="text-slate-400 mb-6 font-light">
+                                Describe a pollution problem or scenario, and our AI will generate a targeted policy intervention.
+                            </p>
+
+                            <div className="space-y-4">
+                                <div>
+                                    <label className="block text-xs font-mono text-slate-500 uppercase tracking-widest mb-2">
+                                        Describe Scenario
+                                    </label>
+                                    <textarea
+                                        value={aiQuery}
+                                        onChange={(e) => setAiQuery(e.target.value)}
+                                        placeholder="E.g., High dust levels from construction sites in downtown..."
+                                        className="w-full bg-slate-800/50 border border-white/10 rounded-xl p-4 text-white focus:outline-none focus:border-indigo-500 transition-colors h-32 resize-none"
+                                    />
+                                </div>
+
+                                <button
+                                    onClick={handleAskAI}
+                                    disabled={aiLoading || !aiQuery}
+                                    className={`w-full py-4 rounded-xl font-bold flex items-center justify-center gap-2 transition-all ${aiLoading || !aiQuery ? 'bg-slate-800 text-slate-500 cursor-not-allowed' : 'bg-white text-black hover:bg-slate-200'}`}
+                                >
+                                    {aiLoading ? (
+                                        <>
+                                            <div className="w-5 h-5 border-2 border-slate-500 border-t-transparent rounded-full animate-spin"></div>
+                                            Analyzing Scenario...
+                                        </>
+                                    ) : (
+                                        <>Generate Policy Strategy</>
+                                    )}
+                                </button>
+                            </div>
+
+                            {aiResult && (
+                                <div className="mt-8 p-6 bg-indigo-900/20 border border-indigo-500/30 rounded-2xl animate-slide-up">
+                                    <h4 className="text-xl font-bold text-white mb-2">{aiResult.policyTitle}</h4>
+                                    <p className="text-slate-300 mb-4 leading-relaxed">{aiResult.description}</p>
+                                    <div className="flex items-center gap-2 text-sm text-emerald-400 font-medium">
+                                        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                                        </svg>
+                                        Impact: {aiResult.estimatedImpact}
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                )}
 
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
                     {/* Controls Panel */}

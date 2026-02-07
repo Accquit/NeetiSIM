@@ -4,6 +4,13 @@ import type { BaselineData, Policy, SimulationResult, ComparisonResult } from '.
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 // Mock API Service
+const policyLabels: Record<string, string> = {
+    tree_cover: "Tree Cover",
+    ev_subsidy: "EV Subsidy",
+    cool_roofs: "Cool Roofs",
+    public_transport: "Public Transport"
+};
+
 export const api = {
     async getCities() {
         await delay(300);
@@ -26,31 +33,65 @@ export const api = {
 
     async getBaselineData(cityId: string): Promise<BaselineData> {
         await delay(500);
+
+        const cityBaselines: Record<string, any> = {
+            'delhi': { aqi: 287, pm25: 140, no2: 65 },
+            'mumbai': { aqi: 165, pm25: 85, no2: 45 },
+            'bangalore': { aqi: 110, pm25: 45, no2: 30 }
+        };
+
+        const base = cityBaselines[cityId] || cityBaselines['delhi'];
+
         return {
             city: cityId,
             baseline: {
-                aqi: 187,
-                pm25: 98,
-                no2: 45,
+                aqi: base.aqi,
+                pm25: base.pm25,
+                no2: base.no2,
                 trend: [
-                    { day: 'Mon', aqi: 165 },
-                    { day: 'Tue', aqi: 178 },
-                    { day: 'Wed', aqi: 192 },
-                    { day: 'Thu', aqi: 185 },
-                    { day: 'Fri', aqi: 195 },
-                    { day: 'Sat', aqi: 182 },
-                    { day: 'Sun', aqi: 187 },
+                    { day: 'Mon', aqi: base.aqi - 15 },
+                    { day: 'Tue', aqi: base.aqi - 5 },
+                    { day: 'Wed', aqi: base.aqi + 10 },
+                    { day: 'Thu', aqi: base.aqi + 5 },
+                    { day: 'Fri', aqi: base.aqi + 20 },
+                    { day: 'Sat', aqi: base.aqi - 10 },
+                    { day: 'Sun', aqi: base.aqi - 20 },
                 ],
             },
         };
     },
 
-    async simulatePolicy(_cityId: string, _policyId: string, budget: number): Promise<SimulationResult> {
+    async getProjectedAQI(cityId: string, policyId: string, budget: number): Promise<{ year: number, aqi: number }[]> {
+        await delay(600);
+        // Mock projection logic
+        const startAQI = cityId === 'delhi' ? 287 : cityId === 'mumbai' ? 165 : 110;
+        const reductionRate = (budget / 2000) * 0.5; // Simple mock formula
+
+        const data = [];
+        let currentAQI = startAQI;
+        for (let year = 2024; year <= 2029; year++) {
+            data.push({ year, aqi: Math.round(currentAQI) });
+            currentAQI = currentAQI * (1 - reductionRate);
+        }
+        return data;
+    },
+
+    async simulatePolicy(cityId: string, policyId: string, budget: number): Promise<SimulationResult> {
+        // ... (keep existing logic but use cityId if needed in future)
+        return this.simulatePolicyMock(cityId, policyId, budget);
+    },
+
+    // KEEPING MOCK AS FALLBACK JUST IN CASE
+    async simulatePolicyMock(cityId: string, _policyId: string, budget: number): Promise<SimulationResult> {
         await delay(800);
+        const cityBaselines: Record<string, any> = {
+            'delhi': { aqi: 287, pm25: 140, no2: 65 },
+            'mumbai': { aqi: 165, pm25: 85, no2: 45 },
+            'bangalore': { aqi: 110, pm25: 45, no2: 30 }
+        };
+        const baseline = cityBaselines[cityId] || cityBaselines['delhi'];
 
-        const baseline = { aqi: 187, pm25: 98, no2: 45 };
         const reductionFactor = (budget / 100) * 0.15;
-
         return {
             before: baseline,
             after: {
@@ -62,29 +103,36 @@ export const api = {
         };
     },
 
-    async comparePolicies(_cityId: string, _policyA: string, _policyB: string): Promise<ComparisonResult> {
+    async comparePolicies(cityId: string, policyA: string, policyB: string, budget: number): Promise<ComparisonResult> {
+        // ... (Mock comparison)
+        return this.comparePoliciesMock(cityId, policyA, policyB, budget);
+    },
+
+    async comparePoliciesMock(_cityId: string, _policyA: string, _policyB: string, budget: number): Promise<ComparisonResult> {
         await delay(1000);
 
+        // Simple mock logic that scales with budget
+        const factor = (budget / 100);
+
         const resultA = {
-            after: { aqi: 145, pm25: 76, no2: 38 },
-            impactScore: 22,
+            after: { aqi: Math.max(50, 145 - factor * 5), pm25: 76, no2: 38 },
+            impactScore: Math.min(99, 22 + factor * 2),
         };
 
         const resultB = {
-            after: { aqi: 152, pm25: 81, no2: 40 },
-            impactScore: 19,
+            after: { aqi: Math.max(50, 152 - factor * 6), pm25: 81, no2: 40 },
+            impactScore: Math.min(99, 19 + factor * 2.5),
         };
 
         return {
-            policyA: resultA,
-            policyB: resultB,
-            winner: 'A',
+            policyA: resultA as any,
+            policyB: resultB as any,
+            winner: resultA.impactScore > resultB.impactScore ? 'A' : 'B',
             recommendation: {
                 policy: 'Increase Tree Cover',
                 reasons: [
-                    'Reduces AQI by 22% compared to baseline',
+                    'Reduces AQI by significantly compared to baseline',
                     'Most cost-effective per unit of AQI reduction',
-                    'Additional benefits: urban cooling, biodiversity',
                 ],
             },
         };

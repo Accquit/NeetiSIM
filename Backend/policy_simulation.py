@@ -76,13 +76,30 @@ POLICY_IMPACTS = {
 # -------------------------------
 # 5. APPLY POLICY
 # -------------------------------
-def apply_policy(policy_name, baseline):
+# -------------------------------
+# 5. APPLY POLICY
+# -------------------------------
+def apply_policy(policy_name, baseline, budget=100):
     impact = POLICY_IMPACTS[policy_name]
     result = {}
-
+    
+    # Diminishing Returns Logic
+    # Budget of 100 Cr is baseline (factor = 1.0)
+    # Budget of 500 Cr -> factor ≈ 2.6 (not 5.0)
+    # This simulates realistic scaling difficulty
+    scaling_factor = (budget / 100) ** 0.6
+    
     for metric in baseline:
-        reduction = baseline[metric] * impact[metric]
-        result[metric] = baseline[metric] - reduction
+        # Calculate reduction with scaling
+        base_reduction = impact.get(metric, 0)
+        actual_reduction_percent = base_reduction * scaling_factor
+        
+        # Cap reduction at 90% (realistic maximum)
+        if actual_reduction_percent > 0.90:
+            actual_reduction_percent = 0.90
+            
+        reduction_amount = baseline[metric] * actual_reduction_percent
+        result[metric] = max(0, round(baseline[metric] - reduction_amount, 2))
 
     return result
 

@@ -30,14 +30,23 @@ export default function Navbar() {
                                     key={path}
                                     to={path}
                                     className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 ${active
-                                            ? 'bg-white text-background shadow-lg shadow-white/10'
-                                            : 'text-slate-400 hover:text-white hover:bg-white/5'
+                                        ? 'bg-white text-background shadow-lg shadow-white/10'
+                                        : 'text-slate-400 hover:text-white hover:bg-white/5'
                                         }`}
                                 >
                                     {label}
                                 </Link>
                             );
                         })}
+                        <Link
+                            to="/map"
+                            className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 ${isActive('/map')
+                                ? 'bg-white text-background shadow-lg shadow-white/10'
+                                : 'text-slate-400 hover:text-white hover:bg-white/5'
+                                }`}
+                        >
+                            Live Map
+                        </Link>
                     </div>
                 </div>
             </div>

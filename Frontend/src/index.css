@@ -53,4 +53,33 @@
   .mask-gradient {
     mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
   }
+
+  /* 3D Transforms for Holographic Effect */
+  .perspective-2000 {
+    perspective: 2000px;
+  }
+
+  .transform-style-3d {
+    transform-style: preserve-3d;
+  }
+
+  .rotate-y-12 {
+    transform: rotateY(-12deg) rotateX(5deg);
+  }
+
+  .translate-z-0 {
+    transform: translateZ(0px);
+  }
+
+  .translate-z-20 {
+    transform: translateZ(20px);
+  }
+
+  .translate-z-50 {
+    transform: translateZ(50px);
+  }
+
+  .translate-z-100 {
+    transform: translateZ(100px);
+  }
 }
