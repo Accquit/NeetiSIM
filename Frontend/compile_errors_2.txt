@@ -1,0 +1,2 @@
+src/pages/Simulator.tsx(19,13): error TS2304: Cannot find name 'simulatePolicy'.
+src/pages/Simulator.tsx(30,11): error TS6133: 'simulateEffect' is declared but its value is never read.

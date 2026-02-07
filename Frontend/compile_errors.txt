@@ -1,0 +1,9 @@
+src/pages/Comparison.tsx(10,12): error TS6133: 'loading' is declared but its value is never read.
+src/pages/Comparison.tsx(39,11): error TS6133: 'getPolicyName' is declared but its value is never read.
+src/pages/Simulator.tsx(12,12): error TS6133: 'loading' is declared but its value is never read.
+src/pages/Simulator.tsx(45,17): error TS2365: Operator '>' cannot be applied to types 'string' and 'number'.
+src/services/api.ts(48,26): error TS6133: 'cityId' is declared but its value is never read.
+src/services/api.ts(48,42): error TS6133: 'policyId' is declared but its value is never read.
+src/services/api.ts(65,27): error TS6133: 'cityId' is declared but its value is never read.
+src/services/api.ts(65,43): error TS6133: 'policyA' is declared but its value is never read.
+src/services/api.ts(65,60): error TS6133: 'policyB' is declared but its value is never read.
