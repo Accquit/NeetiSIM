@@ -1,8 +1,8 @@
-# 🌍 NeetiSIM - AI-Powered Environmental Policy Simulation Platform
+# 🌍 NitiSIM - AI-Powered Environmental Policy Simulation Platform
 
 > **Empowering policymakers with data-driven insights to combat air pollution**
 
-NeetiSIM is an intelligent governance platform that combines real-time environmental data, AI-driven policy recommendations, and quantitative impact simulation to help policymakers make informed decisions about air quality management.
+NitiSIM is an intelligent governance platform that combines real-time environmental data, AI-driven policy recommendations, and quantitative impact simulation to help policymakers make informed decisions about air quality management.
 
 ![NeetiSIM Dashboard](https://img.shields.io/badge/Status-Active-success)
 ![Tech Stack](https://img.shields.io/badge/Stack-React%20%7C%20Python%20%7C%20FastAPI-blue)
@@ -18,7 +18,7 @@ Air pollution is one of the most critical environmental challenges facing urban 
 - **Quantitative impact projections** before implementing costly interventions
 - **Comparative analysis** of multiple policy options
 
-NeetiSIM addresses these challenges through an integrated platform that simulates policy outcomes before real-world implementation.
+NitiSIM addresses these challenges through an integrated platform that simulates policy outcomes before real-world implementation.
 
 ---
 
@@ -89,8 +89,8 @@ NeetiSIM addresses these challenges through an integrated platform that simulate
 
 #### 1️⃣ Clone the Repository
 ```bash
-git clone https://github.com/yourusername/NeetiSIM.git
-cd NeetiSIM
+git clone https://github.com/yourusername/NitiSIM.git
+cd NitiSIM
 ```
 
 #### 2️⃣ Setup Frontend
@@ -168,7 +168,7 @@ Open your browser and navigate to: **http://localhost:5173**
 ## 🗂️ Project Structure
 
 ```
-NeetiSIM/
+NitiSIM/
 ├── Frontend/
 │   ├── src/
 │   │   ├── components/       # Reusable UI components

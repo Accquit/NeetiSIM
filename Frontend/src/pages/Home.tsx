@@ -34,7 +34,7 @@ export default function Home() {
                     </div>
 
                     <h1 className="text-7xl md:text-9xl font-display font-bold leading-[0.9] tracking-tighter text-white">
-                        Neeti<span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-accent-purple to-accent">SIM</span>
+                        Niti<span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-accent-purple to-accent">SIM</span>
                     </h1>
 
                     <p className="text-xl md:text-2xl text-slate-400 font-light max-w-lg leading-relaxed">

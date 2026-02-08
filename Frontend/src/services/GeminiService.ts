@@ -19,7 +19,7 @@ export const generatePolicyInsight = async (query: string, currentAQI: number): 
             const model = genAI.getGenerativeModel({ model: modelName });
 
             const prompt = `
-            Act as an environmental policy expert for the NeetiSIM governance platform.
+            Act as an environmental policy expert for the NitiSIM governance platform.
             Current AQI in the region is ${currentAQI} (Severe).
             
             User Scenario: "${query}"

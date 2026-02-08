@@ -15,7 +15,7 @@ export default function Navbar() {
                             <span className="text-background font-bold text-xl font-display">N</span>
                         </div>
                         <span className="text-xl font-display font-bold tracking-tight text-white group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-slate-400 transition-all">
-                            NeetiSIM
+                            NitiSIM
                         </span>
                     </Link>
 

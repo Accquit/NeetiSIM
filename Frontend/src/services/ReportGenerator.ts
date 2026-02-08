@@ -32,7 +32,7 @@ export const generateReport = (data: ComparisonResult, budget: number) => {
     doc.setTextColor(255, 255, 255);
     doc.setFontSize(22);
     doc.setFont('helvetica', 'bold');
-    doc.text('NeetiSIM', 20, 20);
+    doc.text('NitiSIM', 20, 20);
 
     doc.setFontSize(12);
     doc.setFont('helvetica', 'normal');
@@ -109,8 +109,8 @@ export const generateReport = (data: ComparisonResult, budget: number) => {
     const pageHeight = doc.internal.pageSize.height;
     doc.setFontSize(10);
     doc.setTextColor(150);
-    doc.text('NeetiSIM - AI Powered Governance Tool', 20, pageHeight - 10);
+    doc.text('NitiSIM - AI Powered Governance Tool', 20, pageHeight - 10);
     doc.text('Confidential - For Official Use Only', 140, pageHeight - 10);
 
-    doc.save('NeetiSIM_Policy_assessment.pdf');
+    doc.save('NitiSIM_Policy_assessment.pdf');
 };
