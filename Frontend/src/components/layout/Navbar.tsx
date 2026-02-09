@@ -21,7 +21,7 @@ export default function Navbar() {
 
                     {/* Navigation Links - Pill Style */}
                     <div className="flex items-center gap-1 bg-white/5 p-1 rounded-full border border-white/10 backdrop-blur-md">
-                        {['/', '/dashboard', '/simulator', '/comparison'].map((path) => {
+                        {['/', '/about', '/dashboard', '/simulator', '/comparison'].map((path) => {
                             const label = path === '/' ? 'Home' : path.slice(1).charAt(0).toUpperCase() + path.slice(2);
                             const active = isActive(path);
 

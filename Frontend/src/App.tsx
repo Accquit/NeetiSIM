@@ -5,6 +5,7 @@ import Dashboard from './pages/Dashboard';
 import Simulator from './pages/Simulator';
 import Comparison from './pages/Comparison';
 import MapPage from './pages/MapPage';
+import About from './pages/About';
 
 export default function App() {
     return (
@@ -17,6 +18,7 @@ export default function App() {
                     <Route path="/simulator" element={<Simulator />} />
                     <Route path="/comparison" element={<Comparison />} />
                     <Route path="/map" element={<MapPage />} />
+                    <Route path="/about" element={<About />} />
                 </Routes>
             </div>
         </BrowserRouter>
