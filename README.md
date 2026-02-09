@@ -1,16 +1,15 @@
-# 🌍 NitiSIM - AI-Powered Environmental Policy Simulation Platform
+# NitiSIM - AI-Powered Environmental Policy Simulation Platform
 
 > **Empowering policymakers with data-driven insights to combat air pollution**
 
 NitiSIM is an intelligent governance platform that combines real-time environmental data, AI-driven policy recommendations, and quantitative impact simulation to help policymakers make informed decisions about air quality management.
 
-![NeetiSIM Dashboard](https://img.shields.io/badge/Status-Active-success)
+[Website Link](https://bit.ly/nitisim)
 ![Tech Stack](https://img.shields.io/badge/Stack-React%20%7C%20Python%20%7C%20FastAPI-blue)
-![License](https://img.shields.io/badge/License-MIT-green)
 
 ---
 
-## 🎯 Problem Statement
+## Problem Statement - Climate Action (SDG 13)
 
 Air pollution is one of the most critical environmental challenges facing urban India. With AQI levels frequently crossing hazardous thresholds in major cities, policymakers need:
 - **Real-time insights** into pollution levels across multiple cities
@@ -22,7 +21,7 @@ NitiSIM addresses these challenges through an integrated platform that simulates
 
 ---
 
-## ✨ Key Features
+## Key Features
 
 ### 📊 **Multi-City Dashboard**
 - Real-time AQI monitoring for Delhi, Mumbai, and Bangalore
@@ -55,7 +54,7 @@ NitiSIM addresses these challenges through an integrated platform that simulates
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 ### **Frontend**
 - **Framework**: React 19.2.4 with TypeScript
@@ -64,106 +63,19 @@ NitiSIM addresses these challenges through an integrated platform that simulates
 - **Charts**: Recharts 3.7
 - **Maps**: Leaflet + React Leaflet
 - **Build Tool**: Vite 7.3
+- Deployed on web using Cloudflare Pages
 
 ### **Backend**
 - **Framework**: FastAPI (Python)
 - **Server**: Uvicorn (ASGI)
 - **Data Processing**: NumPy, Pandas
 - **CORS**: Enabled for local development
+- Deployed on web using Renderer
 
 ### **AI Integration**
 - **Model**: Google Gemini API (gemini-1.5-flash)
 - **SDK**: @google/generative-ai 0.24.1
 - **Fallback**: Intelligent rule-based simulation
-
----
-
-## 🚀 Getting Started
-
-### **Prerequisites**
-- Node.js 18+ and npm
-- Python 3.8+
-- Git
-
-### **Installation**
-
-#### 1️⃣ Clone the Repository
-```bash
-git clone https://github.com/yourusername/NitiSIM.git
-cd NitiSIM
-```
-
-#### 2️⃣ Setup Frontend
-```bash
-cd Frontend
-npm install
-```
-
-#### 3️⃣ Setup Backend
-```bash
-cd ../Backend
-pip install fastapi uvicorn numpy pandas
-```
-
-#### 4️⃣ Configure Gemini API (Optional)
-If you want to use the real Gemini API instead of simulation mode:
-
-1. Get an API key from [Google AI Studio](https://aistudio.google.com/app/apikey)
-2. Open `Frontend/src/services/GeminiService.ts`
-3. Replace the API key on line 4:
-```typescript
-const genAI = new GoogleGenerativeAI("YOUR_API_KEY_HERE");
-```
-
----
-
-## 💻 Running the Application
-
-### **Start Backend Server**
-```bash
-cd Backend
-python -m uvicorn main:app --reload
-```
-Backend will run on `http://localhost:8000`
-
-### **Start Frontend Development Server**
-```bash
-cd Frontend
-npm run dev
-```
-Frontend will run on `http://localhost:5173`
-
-### **Access the Application**
-Open your browser and navigate to: **http://localhost:5173**
-
----
-
-## 📖 Usage Guide
-
-### **1. Dashboard Overview**
-- Select a city from the dropdown (Delhi/Mumbai/Bangalore)
-- View current AQI and pollution metrics
-- Analyze 7-day trends and 5-year projections
-
-### **2. Policy Simulation**
-1. Navigate to **Simulator** page
-2. Select a policy from the dropdown
-3. Adjust budget allocation using the slider
-4. View before/after comparison and impact score
-
-### **3. AI Policy Generator**
-1. Click **"Ask AI Assistant"** button
-2. Describe your pollution scenario (e.g., "Traffic congestion causing high NO2")
-3. Click **"Generate Policy Strategy"**
-4. Review AI-generated policy recommendation
-
-### **4. Policy Comparison**
-1. Go to **Comparison** page
-2. Select 2-3 policies to compare
-3. Adjust budgets for each policy
-4. Analyze side-by-side impact metrics
-
----
 
 ## 🗂️ Project Structure
 
@@ -195,66 +107,7 @@ NitiSIM/
 └── README.md
 ```
 
----
-
-## 🔌 API Documentation
-
-### **Backend Endpoints**
-
-#### `GET /api/baseline/{city_id}`
-Get baseline environmental data for a city.
-
-**Response:**
-```json
-{
-  "city": "delhi",
-  "baseline": {
-    "aqi": 287,
-    "pm25": 140,
-    "no2": 65,
-    "trend": [...]
-  }
-}
-```
-
-#### `POST /api/simulate`
-Simulate policy impact.
-
-**Request:**
-```json
-{
-  "policy_id": "ev_transition",
-  "budget": 2000,
-  "city_id": "delhi"
-}
-```
-
-**Response:**
-```json
-{
-  "before": { "aqi": 287, "pm25": 140, "no2": 65 },
-  "after": { "aqi": 215, "pm25": 105, "no2": 48 },
-  "impact_score": 78
-}
-```
-
-#### `POST /api/compare`
-Compare multiple policies.
-
-**Request:**
-```json
-{
-  "policies": [
-    {"id": "ev_transition", "budget": 2000},
-    {"id": "industrial_monitoring", "budget": 1500}
-  ],
-  "city_id": "delhi"
-}
-```
-
----
-
-## 🎨 Features Showcase
+## Features Showcase
 
 ### **Responsive Design**
 - Mobile-first approach
@@ -273,45 +126,25 @@ Compare multiple policies.
 
 ---
 
-## 🤝 Contributing
-
-We welcome contributions! Please follow these steps:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
----
-
-## 📝 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
-## 👥 Team
+## Team
 
-**HackTU 2026 Submission**
+**HackTU 7.0 Submission**
 
-- Project Lead & Full-Stack Developer
-- AI Integration Specialist
-- UI/UX Designer
-
----
-
-## 🙏 Acknowledgments
-
-- Google Gemini API for AI capabilities
-- OpenAQ for air quality data standards
-- FastAPI and React communities for excellent documentation
+- Yashasvi Jaiswal
+- Kushaj Sethi
+- Shrey Singh
 
 ---
 
 ## 📧 Contact
 
-For questions or feedback, reach out to: **your.email@example.com**
+For questions or feedback, reach out to: **yashasvi.jaiswal.2006@gmail.com**
 
 ---
 
