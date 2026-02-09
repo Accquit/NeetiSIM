@@ -9,10 +9,10 @@ from aqi_service import get_live_aqi
 
 app = FastAPI(title="NeetiSIM Backend")
 
-# Enable CORS for Frontend (Port 3000)
+# Enable CORS for Frontend (Port 3000) & Production
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=["*"], # Allow all origins for V1 deployment
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

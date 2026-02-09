@@ -43,7 +43,9 @@ export const api = {
 
         try {
             // Fetch live data from our backend, which proxies OpenMeteo
-            const response = await fetch(`http://localhost:8000/live-aqi?lat=${coords.lat}&lon=${coords.lon}`);
+            // Use environment variable for API URL in production
+            const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+            const response = await fetch(`${API_URL}/live-aqi?lat=${coords.lat}&lon=${coords.lon}`);
             if (!response.ok) throw new Error('Backend offline');
 
             const data = await response.json();
