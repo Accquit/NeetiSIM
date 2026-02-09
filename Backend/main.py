@@ -5,6 +5,7 @@ from policy_simulation import (
     apply_policy,
     calculate_impact_score
 )
+from aqi_service import get_live_aqi
 
 app = FastAPI(title="NeetiSIM Backend")
 
@@ -20,6 +21,10 @@ app.add_middleware(
 @app.get("/")
 def home():
     return {"message": "NeetiSIM backend is running"}
+
+@app.get("/live-aqi")
+def live_aqi(lat: float = 28.61, lon: float = 77.23):
+    return get_live_aqi(lat, lon)
 
 @app.get("/simulate-policy")
 def simulate_policy(policy: str, budget: int = 100):

@@ -32,33 +32,69 @@ export const api = {
     },
 
     async getBaselineData(cityId: string): Promise<BaselineData> {
-        await delay(500);
-
-        const cityBaselines: Record<string, any> = {
-            'delhi': { aqi: 287, pm25: 140, no2: 65 },
-            'mumbai': { aqi: 165, pm25: 85, no2: 45 },
-            'bangalore': { aqi: 110, pm25: 45, no2: 30 }
+        // Map city IDs to coordinates
+        const cityCoords: Record<string, { lat: number, lon: number }> = {
+            'delhi': { lat: 28.61, lon: 77.23 },
+            'mumbai': { lat: 19.07, lon: 72.87 },
+            'bangalore': { lat: 12.97, lon: 77.59 }
         };
 
-        const base = cityBaselines[cityId] || cityBaselines['delhi'];
+        const coords = cityCoords[cityId] || cityCoords['delhi'];
 
-        return {
-            city: cityId,
-            baseline: {
-                aqi: base.aqi,
-                pm25: base.pm25,
-                no2: base.no2,
-                trend: [
-                    { day: 'Mon', aqi: base.aqi - 15 },
-                    { day: 'Tue', aqi: base.aqi - 5 },
-                    { day: 'Wed', aqi: base.aqi + 10 },
-                    { day: 'Thu', aqi: base.aqi + 5 },
-                    { day: 'Fri', aqi: base.aqi + 20 },
-                    { day: 'Sat', aqi: base.aqi - 10 },
-                    { day: 'Sun', aqi: base.aqi - 20 },
-                ],
-            },
-        };
+        try {
+            // Fetch live data from our backend, which proxies OpenMeteo
+            const response = await fetch(`http://localhost:8000/live-aqi?lat=${coords.lat}&lon=${coords.lon}`);
+            if (!response.ok) throw new Error('Backend offline');
+
+            const data = await response.json();
+
+            return {
+                city: cityId,
+                baseline: {
+                    aqi: data.aqi,
+                    pm25: data.pm2_5,
+                    no2: data.no2,
+                    trend: [
+                        // Mock trend based on current live value for visualization
+                        { day: 'Mon', aqi: Math.max(0, data.aqi - 15) },
+                        { day: 'Tue', aqi: Math.max(0, data.aqi - 5) },
+                        { day: 'Wed', aqi: Math.max(0, data.aqi + 10) },
+                        { day: 'Thu', aqi: Math.max(0, data.aqi + 5) },
+                        { day: 'Fri', aqi: Math.max(0, data.aqi + 20) },
+                        { day: 'Sat', aqi: Math.max(0, data.aqi - 10) },
+                        { day: 'Sun', aqi: Math.max(0, data.aqi - 20) },
+                    ],
+                },
+            };
+        } catch (error) {
+            console.error("Failed to fetch live data, falling back to mock:", error);
+
+            // Fallback Mock Data
+            const cityBaselines: Record<string, any> = {
+                'delhi': { aqi: 287, pm25: 140, no2: 65 },
+                'mumbai': { aqi: 165, pm25: 85, no2: 45 },
+                'bangalore': { aqi: 110, pm25: 45, no2: 30 }
+            };
+            const base = cityBaselines[cityId] || cityBaselines['delhi'];
+
+            return {
+                city: cityId,
+                baseline: {
+                    aqi: base.aqi,
+                    pm25: base.pm25,
+                    no2: base.no2,
+                    trend: [
+                        { day: 'Mon', aqi: base.aqi - 15 },
+                        { day: 'Tue', aqi: base.aqi - 5 },
+                        { day: 'Wed', aqi: base.aqi + 10 },
+                        { day: 'Thu', aqi: base.aqi + 5 },
+                        { day: 'Fri', aqi: base.aqi + 20 },
+                        { day: 'Sat', aqi: base.aqi - 10 },
+                        { day: 'Sun', aqi: base.aqi - 20 },
+                    ],
+                },
+            };
+        }
     },
 
     async getProjectedAQI(cityId: string, policyId: string, budget: number): Promise<{ year: number, aqi: number }[]> {
